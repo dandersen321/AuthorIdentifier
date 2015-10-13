@@ -1,26 +1,61 @@
 import nltk;
 import heapq;
 import collections
+import matplotlib.pyplot as plotter
 
   
 def analyzeBook(bookContent):
-    wordContent = nltk.word_tokenize(bookContent)
+    bookContent.count('river')
+    
+    wordAndPuncContent = nltk.word_tokenize(bookContent)
+    wordContent = [w.lower() for w in wordAndPuncContent if w.isalpha() and len(w) > 3] #and len(w) > 3'
+    sentences = nltk.sent_tokenize(bookContent)
+    
+    wordCounts = nltk.FreqDist(wordContent)
+    
+    
+    
+    #return
+     
+    print("awl: " + str(averageWordLength(wordAndPuncContent)))
+    print("awps: " + str(averageWordsPerSentence(sentences, wordContent)))
+     
+     
+    wordCounts.plot(20)
+     
+    print(wordCounts)
+    
+    #x = input()
     
     wordCount = {
-        "river": 0,
-        "the": 0,
-        "on": 0,
+        ",": 0,
+        ";": 0,
+        '"': 0,
+        '!': 0,
+        ':': 0,
+        '-': 0,
+        '--': 0,
+        'and': 0,
+        'but': 0,
+        'however': 0,
+        'if': 0,
+        'that': 0,
+        'more': 0,
+        'must': 0,
+        'might': 0,
+        'this': 0,
+        'very': 0
                  }
-    
-    countWordOccurancePerThousand(wordContent, wordCount)
-    
+     
+    countWordOccurancePerThousand(wordAndPuncContent, wordCount)
+     
     for word in wordCount:
         print(word + " " + str(wordCount[word]))
-        
+         
     return
     
         
-    commonNGrams = mostCommonNGrams(wordContent, 50)
+    commonNGrams = mostCommonNGrams(wordContent, 20)
     #print(commonNGrams)
     #print("most common")
     for freq, word in commonNGrams:
@@ -50,14 +85,24 @@ def mostCommonNGrams(wordContent, numberOfTopNGrams):
 
 def countWordOccurancePerThousand(wordContent, words):
     counter = collections.Counter(wordContent)
-    print(len(wordContent))
+    #print(len(wordContent))
     for word in words:
-        print(counter[word])
-        print(counter[word] / len(words))
+        #print(counter[word])
+        #print(counter[word] / len(words))
         #words[word] = counter[word] / len(wordContent) * 1000 / (len(wordContent))
         words[word] = round(counter[word]/len(wordContent) * 1000)
         
     return words
+
+def averageWordLength(wordContent):
+    totalLength = 0
+    for word in wordContent:
+        totalLength += len(word)
+    return totalLength / len(wordContent)
+
+def averageWordsPerSentence(sentences, wordContent):
+    return len(wordContent) / len(sentences)
+    
  
 def __init__():
     print("anayzlFileinit")        

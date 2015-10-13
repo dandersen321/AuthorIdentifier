@@ -4,6 +4,8 @@ import os
 import re
 import collections
 import math
+#import nltk.book
+
 #from Analyzer import Analyzer
 import Analyzer
 
@@ -15,13 +17,51 @@ booksParsed = 0
 def main():
     locationOfBooks = "C:/Users/Dylan/Desktop/AI Project Books/cache/generated"
     #iterateThroughAllBooks(locationOfBooks)
-    testBook = locationOfBooks + "/68/pg68.txt"
+    #testBook = locationOfBooks + "/68/pg68.txt"
+    #testBook0 = "C:/Users/Dylan/AppData/Roaming/nltk_data/corpora/gutenberg/carroll-alice.txt"
+    #testBook0 = "C:/Users/Dylan/AppData/Roaming/nltk_data/corpora/gutenberg/milton-paradise.txt"
+    #testBook0 = locationOfBooks + "/oz/oz.txt"
+    #testBook0 = locationOfBooks + "/mockingbird/mockingbird.txt"
+    testBook0 = "C:/Users/Dylan/AppData/Roaming/nltk_data/corpora/gutenberg/shakespeare-hamlet.txt"
+    testBook1 = locationOfBooks + "/Dickens/greatExpectations.txt"
+    testBook2 = "C:/Users/Dylan/AppData/Roaming/nltk_data/corpora/gutenberg/austen-persuasion.txt"
+    testBook3 =  "C:/Users/Dylan/AppData/Roaming/nltk_data/corpora/gutenberg/austen-sense.txt"
     
     #removeGutenbergFromBook(testBook)
     
-    testBookContents = loadBook(testBook)
+    testBookContents = loadBook(testBook0)
     Analyzer.analyzeBook(testBookContents)
     
+    testBookContents = loadBook(testBook1)
+    Analyzer.analyzeBook(testBookContents)
+    
+    testBookContents = loadBook(testBook2)
+    Analyzer.analyzeBook(testBookContents)
+    
+    testBookContents = loadBook(testBook3)
+    Analyzer.analyzeBook(testBookContents)
+    #testBookContents = "".join(nltk.corpus.gutenberg.words('austen-persuasion.txt'))
+    
+    
+    #===========================================================================
+    # testBookContents = "".join(nltk.corpus.gutenberg.words('austen-sense.txt'))
+    # Analyzer.analyzeBook(testBookContents)
+    #===========================================================================
+     
+    #===========================================================================
+    # testBookContents = "".join(nltk.corpus.gutenberg.words('melville-moby_dick.txt'))
+    # Analyzer.analyzeBook(testBookContents)
+    #===========================================================================
+    
+    #for elem in nltk.corpus.gutenberg.fileids():
+    #    print(elem)
+        
+    #print(nltk.corpus.gutenberg.words('shakespeare-macbeth.txt'))
+    
+    #print(nltk.book.text1.count('whale'))
+    
+    
+    #print(nltk.book)
     
     
     
