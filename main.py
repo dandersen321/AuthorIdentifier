@@ -6,8 +6,9 @@ import collections
 import math
 #import nltk.book
 
-#from Analyzer import Analyzer
+#from Analyzer2 import Analyzer2
 import Analyzer
+import Classifier
 
 from pybrain.supervised.trainers import BackpropTrainer
 
@@ -30,27 +31,39 @@ def main():
     #removeGutenbergFromBook(testBook)
     
     testBookContents = loadBook(testBook0)
-    Analyzer.analyzeBook(testBookContents)
+    hamletData = Analyzer.analyzeBook(testBookContents)
     
     testBookContents = loadBook(testBook1)
-    Analyzer.analyzeBook(testBookContents)
-    
+    greatExpectationsData = Analyzer.analyzeBook(testBookContents)
+      
     testBookContents = loadBook(testBook2)
-    Analyzer.analyzeBook(testBookContents)
-    
+    persuasionData = Analyzer.analyzeBook(testBookContents)
+      
     testBookContents = loadBook(testBook3)
-    Analyzer.analyzeBook(testBookContents)
+    senseData = Analyzer.analyzeBook(testBookContents)
+    
+    data = {
+     "shake": hamletData,
+     "charles": greatExpectationsData,
+     "austen": persuasionData
+     }
+    
+    Classifier.classify(data, senseData)
+    
+    
+    
+    
     #testBookContents = "".join(nltk.corpus.gutenberg.words('austen-persuasion.txt'))
     
     
     #===========================================================================
     # testBookContents = "".join(nltk.corpus.gutenberg.words('austen-sense.txt'))
-    # Analyzer.analyzeBook(testBookContents)
+    # Analyzer2.analyzeBook(testBookContents)
     #===========================================================================
      
     #===========================================================================
     # testBookContents = "".join(nltk.corpus.gutenberg.words('melville-moby_dick.txt'))
-    # Analyzer.analyzeBook(testBookContents)
+    # Analyzer2.analyzeBook(testBookContents)
     #===========================================================================
     
     #for elem in nltk.corpus.gutenberg.fileids():
@@ -132,6 +145,7 @@ def loadBook(bookLocation):
     with open(bookLocation, encoding ="utf8") as iFile:
         try:    
             bookContent = iFile.read()
+            print("loaded " + bookLocation)
         except UnicodeDecodeError:
             print("could not decode")
             return ""

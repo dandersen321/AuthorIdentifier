@@ -16,21 +16,18 @@ def analyzeBook(bookContent):
     
     
     #return
-    
-    awl = averageWordLength(wordAndPuncContent)
-    awps = averageWordsPerSentence(sentences, wordContent)
      
-    #print("awl: " + str(awl))
-    #print("awps: " + str(awps))
+    print("awl: " + str(averageWordLength(wordAndPuncContent)))
+    print("awps: " + str(averageWordsPerSentence(sentences, wordContent)))
      
      
-    #wordCounts.plot(20)
+    wordCounts.plot(20)
      
-    #print(wordCounts)
+    print(wordCounts)
     
     #x = input()
     
-    wordPerThousand = {
+    wordCount = {
         ",": 0,
         ";": 0,
         '"': 0,
@@ -50,37 +47,12 @@ def analyzeBook(bookContent):
         'very': 0
                  }
      
-    countWordOccurancePerThousand(wordAndPuncContent, wordPerThousand)
-    
-    dataParameters = wordPerThousand
-    dataParameters['awl'] = awl
-    dataParameters['awps'] = awps
-    
-    data = []
-    
-    for key in sorted(dataParameters):
-        data.append(dataParameters[key])
-    
-    #===========================================================================
-    # for key in sorted(dataParameters):
-    #     print("key" + str(key))
-    #     print("value " + str(dataParameters[key]))
-    #     dataValue = dataParameters[key]
-    #     print("dataValue: " + str(dataValue))
-    #     data.append(dataValue)
-    # 
-    # for elem in data:
-    #     print("data: " + str(elem))
-    #===========================================================================
-        
-    
+    countWordOccurancePerThousand(wordAndPuncContent, wordCount)
      
-    #===========================================================================
-    # for word in wordPerThousand:
-    #     print(word + " " + str(wordPerThousand[word]))
-    #===========================================================================
-    #print("\n\n")     
-    return data
+    for word in wordCount:
+        print(word + " " + str(wordCount[word]))
+         
+    return
     
         
     commonNGrams = mostCommonNGrams(wordContent, 20)
@@ -133,4 +105,43 @@ def averageWordsPerSentence(sentences, wordContent):
     
  
 def __init__():
-    print("anayzlFileinit")
+    print("anayzlFileinit")        
+
+#===============================================================================
+# import nltk;
+# import heapq;
+# 
+# 
+# def analyzeBook(bookContent):
+#     
+#     freqDist = nltk.probability.FreqDist(bookContent)
+#     testFreq = freqDist['the'] * 1000 / freqDist.N()
+#     #print(testFreq)
+#     #return
+#         
+#     commonNGrams = mostCommonNGrams(bookContent, 50)
+#     #print(commonNGrams)
+#     #print("most common")
+#     for freq, word in commonNGrams:
+#         print(str(freq) + ": " + str(word))
+#         
+#     
+#     #for k, v in freq.items():
+#     #    print(k, v)
+# 
+# def mostCommonNGrams(bookContent, numberOfTopNGrams):
+#     #split on spaces, don't allow empty string in tuples
+#     textNGrams = nltk.ngrams(filter(bool,bookContent.lower().split(" ")), 3)
+#     nGramsFreq = nltk.FreqDist(textNGrams)    
+#     topNGrams = []
+#     
+#     for words, freq in nGramsFreq.items():
+#         if len(topNGrams) < numberOfTopNGrams or freq > topNGrams[0][0]:
+#             if len(topNGrams) == numberOfTopNGrams:
+#                 heapq.heappop(topNGrams)
+#             heapq.heappush(topNGrams, (freq, words))
+#     
+#     return sorted(topNGrams, reverse = True)
+# 
+#      
+#===============================================================================
