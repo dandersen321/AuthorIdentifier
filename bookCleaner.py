@@ -8,21 +8,24 @@ from main import booksParsed
 
 booksParsed = 0
 
+
 def main():
     #locationOfBooks = "C:/Users/Dylan/Desktop/AI Project Books/cache/generated"
     locationOfBooks = "C:/Users/Dylan/Desktop/AI Project Books/2003/Gutenberg 2003"
     iterateThroughAllBooks(locationOfBooks)
 
 def iterateThroughAllBooks(locationOfBooks):
+    bookCount = 0
     for subdir, dirs, files in os.walk(locationOfBooks):
         for file in files:
             if ".txt" in file:
                 fileLocation = subdir +"/" + file
                 #print(subdir + "/" + file)
                 print("parsing " + file)
+                bookCount+=1
                 removeGutenbergFromBook(fileLocation)
                 
-    print("percent" + str(booksParsed/4348))
+    print("percent" + str(booksParsed/bookCount))
         
 
 def removeGutenbergFromBook(bookLocation):
@@ -33,9 +36,12 @@ def removeGutenbergFromBook(bookLocation):
     
     global booksParsed
     bookContent = loadBook(bookLocation)
-    if bookContent == "" or "Gutenberg" not in bookContent:
-        if bookContent != "":
-            booksParsed+=1
+    if bookContent == "":
+        deleteBook(bookLocation)
+        return
+    
+    if "Gutenberg" not in bookContent:
+        booksParsed+=1
         return
     
     preLength = len(bookContent)   
@@ -45,23 +51,20 @@ def removeGutenbergFromBook(bookLocation):
     endLength = len(bookContent)
     bookContent = bookContent.strip()
     
-    bookParsed = False
-    
     if preLength == middleLength:
         print ("unable to determine prefix")
     elif middleLength == endLength:
         print ("unable to determine postfix")
-    else:
+    
+    
+    if "Gutenberg" not in bookContent:
         bookParsed = True
         #print (bookContent)
         booksParsed+=1
         with open(bookLocation, 'w', encoding ="utf8") as oFile:
             oFile.write(bookContent)
-    
-    if not booksParsed:
+    else:
         deleteBook(bookLocation)
-        #os.remove()
-    
     
     #print(bookContent)
     
@@ -73,15 +76,17 @@ def removeGutenbergFromBook(bookLocation):
     # print(bookContent)
 def deleteBook(bookLocation):
     print("deleting book at: " + bookLocation)
+    os.remove(bookLocation)
 
 def loadBook(bookLocation):
+    bookParsed = True
     with open(bookLocation, encoding ="utf8") as iFile:
         try:    
             bookContent = iFile.read()
             print("loaded " + bookLocation)
         except UnicodeDecodeError:
+            bookParsed = False
             print("could not decode")
-            deleteBook(bookLocation)
             return ""
         
         

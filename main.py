@@ -1,161 +1,33 @@
-import nltk
-import heapq
-import os
-import re
-import collections
-import math
-#import nltk.book
-
-#from Analyzer2 import Analyzer2
-import Analyzer
 import Classifier
+import GetBooks
+import random
 
-from pybrain.supervised.trainers import BackpropTrainer
-
-booksParsed = 0
+def splitBooksIntoTrainingAndTestingSet(books):
+    trainingPercent = 0.80
+    randomBooks = books[:]
+    random.shuffle(randomBooks)
+    trainingEndIndex = int(len(randomBooks) * trainingPercent)
+    
+    trainingList = randomBooks[:trainingEndIndex]
+    testingList = randomBooks[trainingEndIndex:]
+    
+    return trainingList, testingList
+    
+    
 
 
 def main():
-    locationOfBooks = "C:/Users/Dylan/Desktop/AI Project Books/cache/generated"
-    #iterateThroughAllBooks(locationOfBooks)
-    #testBook = locationOfBooks + "/68/pg68.txt"
-    #testBook0 = "C:/Users/Dylan/AppData/Roaming/nltk_data/corpora/gutenberg/carroll-alice.txt"
-    #testBook0 = "C:/Users/Dylan/AppData/Roaming/nltk_data/corpora/gutenberg/milton-paradise.txt"
-    #testBook0 = locationOfBooks + "/oz/oz.txt"
-    #testBook0 = locationOfBooks + "/mockingbird/mockingbird.txt"
-    testBook0 = "C:/Users/Dylan/AppData/Roaming/nltk_data/corpora/gutenberg/shakespeare-hamlet.txt"
-    testBook1 = locationOfBooks + "/Dickens/greatExpectations.txt"
-    testBook2 = "C:/Users/Dylan/AppData/Roaming/nltk_data/corpora/gutenberg/austen-persuasion.txt"
-    testBook3 =  "C:/Users/Dylan/AppData/Roaming/nltk_data/corpora/gutenberg/austen-sense.txt"
     
-    #removeGutenbergFromBook(testBook)
-    
-    testBookContents = loadBook(testBook0)
-    hamletData = Analyzer.analyzeBook(testBookContents)
-    
-    testBookContents = loadBook(testBook1)
-    greatExpectationsData = Analyzer.analyzeBook(testBookContents)
-      
-    testBookContents = loadBook(testBook2)
-    persuasionData = Analyzer.analyzeBook(testBookContents)
-      
-    testBookContents = loadBook(testBook3)
-    senseData = Analyzer.analyzeBook(testBookContents)
-    
-    data = {
-     "shake": hamletData,
-     "charles": greatExpectationsData,
-     "austen": persuasionData
-     }
-    
-    Classifier.classify(data, senseData)
+    books = GetBooks.getBooks()    
     
     
     
-    
-    #testBookContents = "".join(nltk.corpus.gutenberg.words('austen-persuasion.txt'))
-    
-    
-    #===========================================================================
-    # testBookContents = "".join(nltk.corpus.gutenberg.words('austen-sense.txt'))
-    # Analyzer2.analyzeBook(testBookContents)
-    #===========================================================================
-     
-    #===========================================================================
-    # testBookContents = "".join(nltk.corpus.gutenberg.words('melville-moby_dick.txt'))
-    # Analyzer2.analyzeBook(testBookContents)
-    #===========================================================================
-    
-    #for elem in nltk.corpus.gutenberg.fileids():
-    #    print(elem)
         
-    #print(nltk.corpus.gutenberg.words('shakespeare-macbeth.txt'))
+    trainingList, testingList = splitBooksIntoTrainingAndTestingSet(books)
     
-    #print(nltk.book.text1.count('whale'))
+    Classifier.train(trainingList)
     
-    
-    #print(nltk.book)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-def iterateThroughAllBooks(locationOfBooks):
-    for subdir, dirs, files in os.walk(locationOfBooks):
-        for file in files:
-            if ".txt" in file:
-                fileLocation = subdir +"/" + file
-                #print(subdir + "/" + file)
-                print("parsing " + file)
-                removeGutenbergFromBook(fileLocation)
-                
-    print("percent" + str(booksParsed/4348))
-        
-
-def removeGutenbergFromBook(bookLocation):
-    #preGutenRegex = r'^([\s\S]*?\*\*\* START OF THIS PROJECT GUTENBERG.*\n)'
-    preGutenRegex = re.compile(r'((^[\s\S]*?\*\*\*.*?START OF.*? PROJECT GUTENBERG.*\n)|(^[\s\S]*?END.*?THE SMALL PRINT.*\n)|(^[\s\S]*?SERVICE THAT CHARGES FOR DOWNLOAD TIME OR FOR MEMBERSHIP)|(^[\s\S]*?@\w+(\.net)|(\.hotmail)|(\.gmail)|(.\com)))', re.IGNORECASE)
-    postGutenRegex = re.compile(r'(End.*?Project Gutenberg[\s\S]*?)$', re.IGNORECASE)
-    #preGutenStartRegex = r'*** START OF THIS PROJECT GUTENBERG'
-    
-    global booksParsed
-    bookContent = loadBook(bookLocation)
-    if bookContent == "" or "Gutenberg" not in bookContent:
-        if bookContent != "":
-            booksParsed+=1
-        return
-    
-    preLength = len(bookContent)   
-    bookContent = re.sub(preGutenRegex, '', bookContent)
-    middleLength = len(bookContent)
-    bookContent = re.sub(postGutenRegex, '', bookContent)
-    endLength = len(bookContent)
-    bookContent = bookContent.strip()
-    
-    if preLength == middleLength:
-        print ("unable to determine prefix")
-    elif middleLength == endLength:
-        print ("unable to determine postfix")
-    else:
-        #print (bookContent)
-        booksParsed+=1
-        with open(bookLocation, 'w', encoding ="utf8") as oFile:
-            oFile.write(bookContent)
-    
-    
-    
-    #print(bookContent)
-    
-    #===========================================================================
-    # bookContent = loadBook(bookLocation)
-    # preGutenIndex = bookContent.find(preGutenStart) + len(preGutenStart)
-    # print(preGutenIndex)
-    # bookContent = bookContent[preGutenIndex:]
-    # print(bookContent)
-
-def loadBook(bookLocation):
-    with open(bookLocation, encoding ="utf8") as iFile:
-        try:    
-            bookContent = iFile.read()
-            print("loaded " + bookLocation)
-        except UnicodeDecodeError:
-            print("could not decode")
-            return ""
-        
-        
-        
-    return bookContent
- 
-
-     
-        
+    print("\nclassifier accuracy: " + str(Classifier.test(testingList)))
+    print("\nnumber of books used: " + str(len(books)))
 
 main()

@@ -8,7 +8,7 @@ def analyzeBook(bookContent):
     bookContent.count('river')
     
     wordAndPuncContent = nltk.word_tokenize(bookContent)
-    wordContent = [w.lower() for w in wordAndPuncContent if w.isalpha() and len(w) > 3] #and len(w) > 3'
+    wordContent = [w.lower() for w in wordAndPuncContent if w.isalpha() and len(w) > 1] #and len(w) > 3'
     sentences = nltk.sent_tokenize(bookContent)
     
     wordCounts = nltk.FreqDist(wordContent)

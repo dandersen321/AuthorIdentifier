@@ -17,9 +17,12 @@ def getBooks(reParse = False):
     
     with open(locationOfBooks, 'r') as iFile:
         booksAsFileFormat = iFile.readlines()
+        
+    titlesUsed = {}
     
     books = []
     for bookElem in booksAsFileFormat:
+        
         bookLine = bookElem.split('@')
         title = bookLine[0].strip()
         author = bookLine[1].strip()
@@ -28,14 +31,22 @@ def getBooks(reParse = False):
         #print(bookLine[3])
         data = [float(x) for x in bookLine[3].split(',')]
         
+        if title in titlesUsed or author == 'Unknown' or author.strip() == '':
+            continue
+        
         newBook = Book(location, author, title, data)
+        titlesUsed[title] = True
         books.append(newBook)
+        
     
     for book in books:
         authorCount = getAuthorCount(books, book.author)
         book.authorCount = authorCount
+        print("reading book " + book.title)
+    
+    minNumberOfBooksRequired = 2
         
-    booksToUse = [book for book in books if book.authorCount > 3]
+    booksToUse = [book for book in books if book.authorCount >= minNumberOfBooksRequired]
         
     return booksToUse
     
