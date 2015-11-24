@@ -11,7 +11,7 @@ import random
 locationOfBooksInfo = "C:/Users/Dylan/Desktop/AI Project Books/Gutenberg 3/parsedBooks.txt"
 locationOfBooks = "C:/Users/Dylan/Desktop/AI Project Books/Gutenberg 3/books.txt"
 
-def getBooks(reParse = False):
+def getBooks(reParse = False, minNumberOfBooksRequired = 2):
     books = None
     
     if not os.path.isfile(locationOfBooks) or reParse == True:
@@ -68,7 +68,7 @@ def getBooks(reParse = False):
     
     print("author count: " + str(len(authorCount)))
     
-    minNumberOfBooksRequired = 2
+    #minNumberOfBooksRequired = 2
     
     booksToUse = [book for book in books if authorCount[book.author] >= minNumberOfBooksRequired]
         

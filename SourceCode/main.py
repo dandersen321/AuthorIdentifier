@@ -178,12 +178,25 @@ def weedForParameters(books):
         print(allDataKeys)
         
     
+def runWithMinBooksChanging():
+    with open("minBooks.txt", "w+") as oFile:
+        for i in range (2, 26):
+            books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = i)
+            average = runOneSimulation(books)
+            print("on" + str(i))
+            oFile.write(str(i) + "\t" + str(average))
+            oFile.write('\n')     
+def demo():
+    books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = 2)
+    runOneSimulation(books)
     
-    
+     
 def main():
     
-    books = GetBooks.getBooks(reParse = False)    
-    weedForParameters(books)
+    runWithMinBooksChanging()
+    
+    #books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = 2)    
+    #weedForParameters(books)
     #===========================================================================
     # dataKeys = ['awl', '-', 'this', 'averageParagraphLength', 'awps', 'must', 'and', 'since', 'if', '--', 'uppercaseFraction', 'whitespaceFraction', 'numberOfWords', ';', 'bigraph-lc', 'however', 'apostrophesPerWord', '!', ':']
     # for book in books:
