@@ -4,18 +4,27 @@ import os
 import re
 import collections
 import math
-from main import booksParsed
+#from main import booksParsed
 
 booksParsed = 0
-
+bookCount = 0
 
 def main():
     #locationOfBooks = "C:/Users/Dylan/Desktop/AI Project Books/cache/generated"
-    locationOfBooks = "C:/Users/Dylan/Desktop/AI Project Books/2003/Gutenberg 2003"
-    iterateThroughAllBooks(locationOfBooks)
+    #locationOfBooks = "C:/Users/Dylan/Desktop/AI Project Books/2003/Gutenberg 2003"
+    locationOfBooks = "C:/Users/Dylan/Desktop/AI Project Books/Gutenberg 3"
+    for subdir, dirs, files in os.walk(locationOfBooks):
+        for dir in dirs:
+            if "etext" in dir:
+                iterateThroughAllBooks(locationOfBooks + "/" + dir)
+                
+    print("done")
+    print(bookCount)
+            
 
 def iterateThroughAllBooks(locationOfBooks):
-    bookCount = 0
+    global bookCount
+    global booksParsed
     for subdir, dirs, files in os.walk(locationOfBooks):
         for file in files:
             if ".txt" in file:
@@ -26,6 +35,7 @@ def iterateThroughAllBooks(locationOfBooks):
                 removeGutenbergFromBook(fileLocation)
                 
     print("percent" + str(booksParsed/bookCount))
+    
         
 
 def removeGutenbergFromBook(bookLocation):
@@ -42,6 +52,7 @@ def removeGutenbergFromBook(bookLocation):
     
     if "Gutenberg" not in bookContent:
         booksParsed+=1
+        #print( bookContent)
         return
     
     preLength = len(bookContent)   
@@ -64,6 +75,7 @@ def removeGutenbergFromBook(bookLocation):
         with open(bookLocation, 'w', encoding ="utf8") as oFile:
             oFile.write(bookContent)
     else:
+        print("deleting: " + bookLocation)
         deleteBook(bookLocation)
     
     #print(bookContent)
@@ -76,11 +88,11 @@ def removeGutenbergFromBook(bookLocation):
     # print(bookContent)
 def deleteBook(bookLocation):
     print("deleting book at: " + bookLocation)
-    os.remove(bookLocation)
+    #os.remove(bookLocation)
 
 def loadBook(bookLocation):
     bookParsed = True
-    with open(bookLocation, encoding ="utf8") as iFile:
+    with open(bookLocation) as iFile:
         try:    
             bookContent = iFile.read()
             print("loaded " + bookLocation)
@@ -88,8 +100,10 @@ def loadBook(bookLocation):
             bookParsed = False
             print("could not decode")
             return ""
-        
-        
+        except Exception:
+            bookParsed = False
+            print(e)
+            return ""
         
     return bookContent
  
@@ -97,4 +111,4 @@ def loadBook(bookLocation):
      
         
 
-main()
+#main()

@@ -14,14 +14,17 @@ def train(books):
     bookData = []
     bookAuthors = []
     for book in books:
-        bookData.append(book.data)
+        bookData.append(book.getDataValues())
         bookAuthors.append(book.author)
     
     decisionTree = decisionTree.fit(bookData, bookAuthors)
     
 def predict(book):
     
-    prediction = decisionTree.predict(book.data)
+    prediction = decisionTree.predict(book.getDataValues())
+    #prob = decisionTree.predict_proba(book.getDataValues())
+    #prob = decisionTree.score(book.getDataValues(), prediction[0])
+    #print(prob)
     return prediction[0]
 
 def test(testingBooks):
@@ -31,28 +34,17 @@ def test(testingBooks):
         authorPrediction = predict(book)
         if authorPrediction == book.author:
             booksCorrect += 1
-        else:
+        #else:
             #given = "given: " book.author
-            print( ("given: " + book.author).ljust(60, ' ') + " predicted: " + str(authorPrediction))
+            #print( ("given: " + book.author).ljust(60, ' ') + " predicted: " + str(authorPrediction))
             #print("author: " + book.author + " predicted: " + authorPrediction)
             
-    return booksCorrect/totalBooks
+    return round(booksCorrect/totalBooks * 100, 2)
 
-#===============================================================================
-# def outputImageToFile():
-#     fileLocation = "C:/Users/Dylan/Desktop/AI Project Books/classifier.dot"
-#     
-#     tree.export_graphviz(decisionTree, out_file=fileLocation)
-#     
-#     
-#     #dot = gv.dot(fileLocation)
-#     #gv.Graph(dot) 
-#     
-#     Gtmp = pgv.AGraph(fileLocation)
-#     G = nx.Graph(Gtmp)
-#     nx.draw(G)
-#     plt.show()
-#===============================================================================
+def outputImageToFile():
+    fileLocation = "C:/Users/Dylan/Desktop/AI Project Books/classifier.dot"
+     
+    tree.export_graphviz(decisionTree, out_file=fileLocation)
 
 
 #===============================================================================

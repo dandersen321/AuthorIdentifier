@@ -2,10 +2,14 @@ import nltk;
 import heapq;
 import collections
 import matplotlib.pyplot as plotter
+#from curses.ascii import isupper
+from SourceCode.bookCleaner import bookCount
 
+#see http://www2.tcs.ifi.lmu.de/~ramyaa/publications/stylometry.pdf
+#http://cs229.stanford.edu/proj2012/BarryLuna-StylometryforOnlineForums.pdf
   
 def analyzeBook(bookContent):
-    bookContent.count('river')
+    #bookContent.count('river')
     
     wordAndPuncContent = nltk.word_tokenize(bookContent)
     wordContent = [w.lower() for w in wordAndPuncContent if w.isalpha() and len(w) > 1] #and len(w) > 3'
@@ -19,7 +23,16 @@ def analyzeBook(bookContent):
     
     awl = averageWordLength(wordAndPuncContent)
     awps = averageWordsPerSentence(sentences, wordContent)
-     
+    #standardDeviationOfSentenceLength = standardDeviation()
+    averageParagraphLength = getAverageParagraphLength(bookContent, wordContent)
+    apostrophesPerWord = getApostrophesPerWord(wordAndPuncContent)
+    uppercaseFraction = getUppercaseFraction(wordAndPuncContent)
+    numberOfWords = len(wordContent)
+    whitespaceFraction = getWhiteSpaceFraction(bookContent)
+    digitFraction = getDigitFraction(bookContent)
+    
+    bigraphsToTest = ['lc', 'co', 'me', 'we']
+    frequencyOfBigraphs = getFrequencyOfBigraphs(bigraphsToTest, wordContent)
     #print("awl: " + str(awl))
     #print("awps: " + str(awps))
      
@@ -47,7 +60,9 @@ def analyzeBook(bookContent):
         'must': 0,
         'might': 0,
         'this': 0,
-        'very': 0
+        'very': 0,
+        'since': 0,
+        'because': 0
                  }
      
     countWordOccurancePerThousand(wordAndPuncContent, wordPerThousand)
@@ -55,39 +70,39 @@ def analyzeBook(bookContent):
     dataParameters = wordPerThousand
     dataParameters['awl'] = awl
     dataParameters['awps'] = awps
+    dataParameters['averageParagraphLength'] = averageParagraphLength
+    dataParameters['apostrophesPerWord'] = apostrophesPerWord
+    dataParameters['uppercaseFraction'] = uppercaseFraction
+    dataParameters['numberOfWords'] = numberOfWords
+    dataParameters['whitespaceFraction'] = whitespaceFraction
+    dataParameters['digitFraction'] = digitFraction
+    for biograph in frequencyOfBigraphs:
+        dataParameters[biograph] = frequencyOfBigraphs[biograph]
+        
+    for param in dataParameters:
+        dataParameters[param] = round(dataParameters[param], 5)
     
-    data = []
+    #print(dataParameters)
     
-    for key in sorted(dataParameters):
-        data.append(dataParameters[key])
+    return dataParameters
     
     #===========================================================================
-    # for key in sorted(dataParameters):
-    #     print("key" + str(key))
-    #     print("value " + str(dataParameters[key]))
-    #     dataValue = dataParameters[key]
-    #     print("dataValue: " + str(dataValue))
-    #     data.append(dataValue)
+    # data = []
     # 
-    # for elem in data:
-    #     print("data: " + str(elem))
+    # for key in sorted(dataParameters):
+    #     data.append(dataParameters[key])
+    #     
+    # return data
     #===========================================================================
-        
-    
-     
-    #===========================================================================
-    # for word in wordPerThousand:
-    #     print(word + " " + str(wordPerThousand[word]))
-    #===========================================================================
-    #print("\n\n")     
-    return data
     
         
-    commonNGrams = mostCommonNGrams(wordContent, 20)
-    #print(commonNGrams)
-    #print("most common")
-    for freq, word in commonNGrams:
-        print(str(freq) + ": " + str(word))
+    #===========================================================================
+    # commonNGrams = mostCommonNGrams(wordContent, 20)
+    # #print(commonNGrams)
+    # #print("most common")
+    # for freq, word in commonNGrams:
+    #     print(str(freq) + ": " + str(word))
+    #===========================================================================
         
     
     #for k, v in freq.items():
@@ -130,7 +145,85 @@ def averageWordLength(wordContent):
 
 def averageWordsPerSentence(sentences, wordContent):
     return len(wordContent) / len(sentences)
+
+def getAverageParagraphLength(bookContent, wordContent):
+    paragraphs = bookContent.split('\n')
+    return len(wordContent)/len(paragraphs)
+
+def getApostrophesPerWord(wordAndPuncContent):
+    numberOfApostrophes = 0
+
+    for word in wordAndPuncContent:
+        if "'" in word:
+            numberOfApostrophes+=1
     
+    return numberOfApostrophes / len (wordAndPuncContent)
+
+def getUppercaseFraction(wordAndPuncContent):
+    numberOfUpperCases = 0
+    numberOfWords = len(wordAndPuncContent)
+    for word in wordAndPuncContent:
+        for character in word:
+            if character.isupper():
+                numberOfUpperCases+=1
+                continue
+    
+    return numberOfUpperCases / numberOfWords
+
+    
+def getWhiteSpaceFraction(bookCount):    
+    numberOfWhiteSpaces = 0
+    numberOfCharacters = len(bookCount)
+    for character in bookCount:
+        if character == ' ':
+            numberOfWhiteSpaces+=1
+    
+    return numberOfWhiteSpaces / numberOfCharacters
+
+def getDigitFraction(bookCount):
+    numberOfDigits = 0
+    numberOfCharacters = len(bookCount)
+    for character in bookCount:
+        if character.isdigit():
+            numberOfDigits+=1
+    
+    return numberOfDigits / numberOfCharacters
+
+def getFrequencyOfBigraphs(bigraphsToTest, wordContent):
+    bigraphs = {}
+    for bigraph in bigraphsToTest:
+        bigraphs["bigraph-" + bigraph]= 0
+    numberOfWords = len(wordContent)
+    
+    for word in wordContent:
+        #print(bigraphsToTest)
+        for bigraph in bigraphsToTest:
+            #print("biograph: " + bigraph + " word: " + word)
+            if bigraph in word:
+                bigraphs["bigraph-" + bigraph] +=1
+                
+    
+    for bigraph in bigraphs:
+        bigraphs[bigraph] = bigraphs[bigraph]/numberOfWords * 100
+        
+    return bigraphs
  
 def __init__():
     print("anayzlFileinit")
+    
+def testLoadBook():
+    testBookContent = None
+    with open('C:/Users/Dylan/Desktop/AI Project Books/Gutenberg 3/testBook.txt', 'r') as iFile:
+        testBookContent = iFile.read()
+    
+    print(testBookContent)    
+        
+    testBookAnalysis = analyzeBook(testBookContent)
+    
+    print(testBookAnalysis)
+    
+#testLoadBook()
+    
+        
+        
+    
