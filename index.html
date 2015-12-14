@@ -125,18 +125,28 @@
 <h2>
 <a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h2>
 
-<p>Using this method I was able to predict the correct author with a relatively high degree of accuracy.  This accuracy was correlated with two factors: the number of authors used and the number of books looked at for each author.  The following graphs show the results.</p>
+<p>Using this method I was able to predict the correct author with a relatively high degree of accuracy.  This accuracy was correlated with two factors: the number of authors used and the minimum number of books each author must have written to be included in the dataset.  The following graphs show the results.</p>
 
-<p>Because of the complexity of the tree, I also looked into which parameters were helping with the accuracy of my results.  I did this in two ways.  The first was to start with one feature and see what accuracy I could get.  Then I would add a second feature (all random) and see how much (if any) the feature added to the accuracy.  The results are shown in the graph below.</p>
+<p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/authorsUsedOnAccuracy.PNG" alt=""></p>
 
-<p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/WeedingFeatures.png" alt="">
-Some of the findings I have encountered while researching:</p>
+<p>We can see that as the number of authors increase, the accuracy decreases until it steadies at around 45% accuracy.  So given a high school classroom size of about 30 we would expect a 75% accuracy in the prediction of anonymous documents and given a large college course of 250 we would expect 45% accuracy.  </p>
+
+<p>A second but lesser impactful variable was the number of books an author needed to write to be included in the dataset.  As we can see from the following graph, the more books we have to analyze from an author results in a small positive correlation to our accuracy.</p>
+
+<p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/minBooks.png" alt=""> </p>
+
+<h2>
+<a id="features-of-importance" class="anchor" href="#features-of-importance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features of Importance</h2>
+
+<p>After looking at the results, I also explored which features improved the accuracy the most.  The first way was to use only that feature and see how well I could predict the accuracy.  This resulted in expectedly low accuracy, but showing which features were strong on their own.</p>
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/SingleParam.png" alt=""></p>
 
-<p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/minBooks.png" alt=""></p>
+<p>I then looked at how the features combined to affect accuracy.  I did this by starting with zero features, and then added one random feature and computed it's accuracy in predicting authors.  This resulted in the following data.</p>
 
-<p><a href="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTree.pdf">decision tree pdf</a></p>
+<p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/addingFeatures.PNG" alt=""></p>
+
+<p>As we can see, the first features are the most signficant but after several features each additional one has a smaller impact.  We also see that certain features that did not well on the single param test also added little or even hurt the accuracy.</p>
       </section>
     </div>
 
