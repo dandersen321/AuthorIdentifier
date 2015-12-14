@@ -31,24 +31,106 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <p>Description:</p>
+        <h2>
+<a id="executive-summary" class="anchor" href="#executive-summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Executive Summary</h2>
 
-<p>The Author Identifier is a document tool that uses decision trees to learn the style of different authors.  It can then use what it has learned to make educated guesses about the authorship of document whose author is unknown (or in question).  This tool has been written in python using nltk and sklearn packages for parsing and AI learning respectively.  The dataset is currently about 7,500 books from the Gutenberg project (<a href="https://www.gutenberg.org/">https://www.gutenberg.org/</a>) but future releases may incorporate other media such as journals and emails.</p>
+<p>It can be hard to tell who the true author of a document it.  This problem may arise when checking for plagiarism or old documents whose authorship is unknown.  To solve this, this tool uses a decision tree to learn the style of many authors.  Then using this information it can analyze a document and determine the original author of the work in question.</p>
 
-<p>Why:</p>
+<h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
+
+<p>It is often difficult for a human to be able to analyze a document and determine the author.  This linguistic practice is known as Stylometry and has many useful applications.  There are many ways this problem has been approached, but each typically consists of looking for similar patterns between an author and the document being analyzed.  This tool attempts to improve the accuracy of such a method by using a decision tree that can find complex patterns that might be hard for a human to discover.</p>
+
+<p>This implementation was used with a dataset of 24,428 books from the Gutenberg project (<a href="https://www.gutenberg.org/">https://www.gutenberg.org/</a>) but future releases may incorporate other media such as journals and emails.  The tool will analysis each book to try and discover an author's style.  If successful, it can then use this information to predict the author of future books it has not seen before.  This tool has been written in python using nltk and sklearn packages for parsing and AI learning respectively.</p>
+
+<h2>
+<a id="why" class="anchor" href="#why" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why</h2>
 
 <p>There are several uses that one can find for the author identifier, but I will list the main ones I see: </p>
 
 <ol>
 <li>Plagiarism: the tool could determine the probability that a paper under one author is actually written from another source</li>
 <li>Validity of works:  the tool could determine the legitimacy of works whose authorship is in question.</li>
-<li>Discovering authors hidden under pennames: this tool could be used to help determine the author of books that have been written under a penname</li>
+<li>Discovering authors hidden under pen names: this tool could be used to help determine the author of books that have been written under a pen name</li>
 <li>Similar writing styles: the tool could help determine how close different author’s writing styles are</li>
 </ol>
 
-<p>Some of the findings I have encountered while researching:</p>
+<h2>
+<a id="the-process" class="anchor" href="#the-process" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Process</h2>
 
-<p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/WeedingFeatures.png" alt=""></p>
+<h3>
+<a id="the-analysis-phase" class="anchor" href="#the-analysis-phase" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Analysis Phase</h3>
+
+<p>From my initial research, I used 31 features in my analysis phase.  They are:</p>
+
+<ul>
+<li>apostrophesPerWord: how many apostrophes are used in each word</li>
+<li>averageParagraphLength: the average number of sentences in each paragraph</li>
+<li>averageWordLength: the average character length of each word</li>
+<li>averageWordsPerSentence: the average words in each sentence</li>
+<li>bigraphs: how often the two character sequence appears in a word
+
+<ul>
+<li>bigraph-co</li>
+<li>bigraph-lc</li>
+<li>bigraph-me</li>
+<li>bigraph-we</li>
+</ul>
+</li>
+<li>digitFraction: how many characters are digits</li>
+<li>numberOfWords: how many words the document contains</li>
+<li>uppercaseFraction: how many words start with an uppercase character</li>
+<li>whitespaceFraction: the ratio of the whitespace to words </li>
+<li>WPT: (Words Per Thousand) how often a word occurs out of every thousand words
+
+<ul>
+<li>WPT-and</li>
+<li>WPT-because</li>
+<li>WPT-but</li>
+<li>WPT-colon</li>
+<li>WPT-comma</li>
+<li>WPT-doubleHyphen</li>
+<li>WPT-exclamationMark</li>
+<li>WPT-however</li>
+<li>WPT-hyphen</li>
+<li>WPT-if</li>
+<li>WPT-might</li>
+<li>WPT-more</li>
+<li>WPT-must</li>
+<li>WPT-quote</li>
+<li>WPT-semicolon</li>
+<li>WPT-since</li>
+<li>WPT-that</li>
+<li>WPT-this</li>
+<li>WPT-very</li>
+</ul>
+</li>
+</ul>
+
+<p>I calculated these feature on each document then saved the results in a json file.  In this way we don't have to analyze each document every time the program is run (a full analysis on all 24,428 books takes about 8 hours).</p>
+
+<h3>
+<a id="creating-the-decision-tree" class="anchor" href="#creating-the-decision-tree" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating the decision tree</h3>
+
+<p>To analyze the data I used a decision tree using python library sklearn's implementation.  The decision tree works to try and compartmentalize the data into leaf nodes where each leaf contains only (or a large majority) of one author.  A simple example would be given we had 3 authors: star, circle, and triangle and we were using 2 parameters: averageParagraphLength and WPT-and.  We might end up with the following graph:</p>
+
+<p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTreeBasicGraph.PNG" alt=""></p>
+
+<p>where each shape represents one book by that author.  We would then create the following decision tree:</p>
+
+<p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTreeBasicTree.PNG" alt=""></p>
+
+<p>In this way, if were given any data point from a book we would be able to identify the author.  Now the decision tree used for this project is quite more complicated and the data not as perfectly categorized.  If you want to get a look at the complexity of the tree you can get a look here: <a href="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTree.pdf">decision tree pdf</a>.</p>
+
+<h2>
+<a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h2>
+
+<p>Using this method I was able to predict the correct author with a relatively high degree of accuracy.  This accuracy was correlated with two factors: the number of authors used and the number of books looked at for each author.  The following graphs show the results.</p>
+
+<p>Because of the complexity of the tree, I also looked into which parameters were helping with the accuracy of my results.  I did this in two ways.  The first was to start with one feature and see what accuracy I could get.  Then I would add a second feature (all random) and see how much (if any) the feature added to the accuracy.  The results are shown in the graph below.</p>
+
+<p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/WeedingFeatures.png" alt="">
+Some of the findings I have encountered while researching:</p>
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/SingleParam.png" alt=""></p>
 
