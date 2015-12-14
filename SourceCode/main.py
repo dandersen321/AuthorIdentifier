@@ -113,29 +113,29 @@ def runOneSimulation(books):
     print("average accuracy: " + str(averageAccuracy))
     return averageAccuracy
     
-def weedForParameters(books):
+def singleParameters(books):
     allDataKeys = list(books[0].data.keys())
-    
+     
     print(allDataKeys)
     random.shuffle(allDataKeys)
     print(allDataKeys)
-    
+     
     #startingDataKey = allDataKeys[0]
-    
+     
     currentDataKeys = []
     #currentDataKeys = [ startingDataKey]
     for book in books:
         book.setDataKeys(currentDataKeys)
-    
+     
     #bestAccuracy = runOneSimulation(books)
     bestAccuracy = 0
-    
+     
     #with open("weedingParams.txt", 'w+') as oFile:
     with open("singleParams.txt", 'w+') as oFile:
         for key in allDataKeys:
             #if key == startingDataKey:
             #    continue
-            
+             
             currentDataKeys = [key]
             #currentDataKeys.append(key)
             print("testing with currentDataKeys: ")
@@ -162,11 +162,11 @@ def weedForParameters(books):
                 # oFile.write("new best accuracy: " + str(bestAccuracy))
                 # oFile.write('\n')
                 #===============================================================
-                
+                 
             oFile.write(key + "\t" + str(accuracy))
             oFile.write('\n')
-                
-        
+                 
+         
         print(currentDataKeys)    
         print("best Accuracy: " + str(bestAccuracy))
         #=======================================================================
@@ -175,6 +175,109 @@ def weedForParameters(books):
         # oFile.write("best Accuracy: " + str(bestAccuracy))
         #=======================================================================
         #oFile.write('\n')
+         
+        print("all: ")
+        print(allDataKeys)
+        
+def weedForParameters(books):
+    allDataKeys = list(books[0].data.keys())
+     
+    print(allDataKeys)
+    random.shuffle(allDataKeys)
+    print(allDataKeys)
+     
+    #startingDataKey = allDataKeys[0]
+     
+    currentDataKeys = []
+    #currentDataKeys = [ startingDataKey]
+    for book in books:
+        book.setDataKeys(currentDataKeys)
+     
+    #bestAccuracy = runOneSimulation(books)
+    bestAccuracy = 0
+     
+    with open("weedingParams.txt", 'w+') as oFile:
+    #with open("singleParams.txt", 'w+') as oFile:
+        for key in allDataKeys:
+            #if key == startingDataKey:
+            #    continue
+             
+            #currentDataKeys = [key]
+            currentDataKeys.append(key)
+            print("testing with currentDataKeys: ")
+            print(currentDataKeys)
+            for book in books:
+                book.setDataKeys(currentDataKeys)
+            accuracy = runOneSimulation(books)
+            if accuracy < bestAccuracy:
+                print("bad key: " + key)
+                #===============================================================
+                # oFile.write("bad key: " + key)
+                # oFile.write('\n')
+                # oFile.write("best accuracy: " + str(bestAccuracy))
+                # oFile.write('\n')
+                #===============================================================
+                currentDataKeys.remove(key)
+            else:
+                bestAccuracy = accuracy
+                print("good key: " + key)
+                print("new best accuracy: " + str(bestAccuracy))
+                #===============================================================
+                # oFile.write("good key: " + key)
+                # oFile.write('\n')
+                # oFile.write("new best accuracy: " + str(bestAccuracy))
+                # oFile.write('\n')
+                #===============================================================
+                 
+            oFile.write(key + "\t" + str(accuracy))
+            oFile.write('\n')
+                 
+         
+        print(currentDataKeys)    
+        print("best Accuracy: " + str(bestAccuracy))
+        #=======================================================================
+        # oFile.write(str(currentDataKeys))
+        # oFile.write('\n')    
+        # oFile.write("best Accuracy: " + str(bestAccuracy))
+        #=======================================================================
+        #oFile.write('\n')
+         
+        print("all: ")
+        print(allDataKeys)
+
+
+
+def testAddingParameters(books):
+    allDataKeys = list(books[0].data.keys())
+    
+    print(allDataKeys)
+    random.shuffle(allDataKeys)
+    print(allDataKeys)
+    
+    #startingDataKey = allDataKeys[0]
+    
+    currentDataKeys = []
+    #currentDataKeys = [ startingDataKey]
+    for book in books:
+        book.setDataKeys(currentDataKeys)
+    
+    #with open("weedingParams.txt", 'w+') as oFile:
+    with open("addingParams.txt", 'w+') as oFile:
+        for key in allDataKeys:
+            #if key == startingDataKey:
+            #    continue
+            
+            currentDataKeys.append(key)
+            #currentDataKeys.append(key)
+            print("testing with currentDataKeys: ")
+            print(currentDataKeys)
+            for book in books:
+                book.setDataKeys(currentDataKeys)
+            accuracy = runOneSimulation(books)
+                
+            oFile.write(key + "\t" + str(accuracy))
+            oFile.write('\n')
+            print(key + "\t" + str(accuracy))
         
         print("all: ")
         print(allDataKeys)
@@ -223,10 +326,12 @@ def main():
     
     #demo()
     #runWithMinBooksChanging()
-    runWithNumberOfAuthorsChanging()
+    #runWithNumberOfAuthorsChanging()
     
-    #books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = 2)    
+    books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = 3, numberOfAuthorsToUse = 500)    
     #weedForParameters(books)
+    testAddingParameters(books)
+    singleParameters(books)
     #===========================================================================
     # dataKeys = ['awl', '-', 'this', 'averageParagraphLength', 'awps', 'must', 'and', 'since', 'if', '--', 'uppercaseFraction', 'whitespaceFraction', 'numberOfWords', ';', 'bigraph-lc', 'however', 'apostrophesPerWord', '!', ':']
     # for book in books:
