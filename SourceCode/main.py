@@ -27,6 +27,8 @@ def splitBooksIntoTrainingAndTestingSet(books):
         if book.author not in initTrainingAuthors:
             initTrainingAuthors[book.author] = book.title
     
+    print("initTrainingAuthors length: " + str(len(initTrainingAuthors)))
+    
     restOfBooks = []   
     for book in randomBooks:
         if initTrainingAuthors[book.author] == book.title:
@@ -180,20 +182,48 @@ def weedForParameters(books):
     
 def runWithMinBooksChanging():
     with open("minBooks.txt", "w+") as oFile:
-        for i in range (2, 26):
-            books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = i)
+        for i in range (2, 21):
+            books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = i, numberOfAuthorsToUse = 50)
             average = runOneSimulation(books)
             print("on" + str(i))
             oFile.write(str(i) + "\t" + str(average))
-            oFile.write('\n')     
+            #oFile.write(str(i) + "\t" + str(len(books)))
+            oFile.write('\n')
+
+#===============================================================================
+# def runWithMinBooksChanging():
+#     with open("minBooks.txt", "w+") as oFile:
+#         for i in range (2, 26):
+#             books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = i, numberOfAuthorsToUse = 30)
+#             #average = runOneSimulation(books)
+#             print("on" + str(i))
+#             #oFile.write(str(i) + "\t" + str(average))
+#             oFile.write(str(i) + "\t" + str(len(books)))
+#===============================================================================
+            oFile.write('\n')
+            
+def runWithNumberOfAuthorsChanging():
+    with open("authorsChanging.txt", "w+") as oFile:
+        for i in range (20, 320, 20):
+            books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = 3, numberOfAuthorsToUse = i)
+            average = runOneSimulation(books)
+            print("on" + str(i))
+            oFile.write(str(i) + "\t" + str(average))
+            oFile.write('\n')
+    
+    
+    
+         
 def demo():
-    books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = 2)
+    books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = 2, numberOfAuthorsToUse = 30)
     runOneSimulation(books)
     
      
 def main():
     
-    runWithMinBooksChanging()
+    #demo()
+    #runWithMinBooksChanging()
+    runWithNumberOfAuthorsChanging()
     
     #books = GetBooks.getBooks(reParse = False, minNumberOfBooksRequired = 2)    
     #weedForParameters(books)

@@ -28,6 +28,8 @@ def predict(book):
     return prediction[0]
 
 def test(testingBooks):
+    #print("testingBooks")
+    #print(testingBooks)
     totalBooks = len(testingBooks)
     booksCorrect = 0
     for book in testingBooks:
