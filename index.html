@@ -107,12 +107,12 @@
 </li>
 </ul>
 
-<p>I calculated these features on each document then saved the results in a json file.  Using this method, we don't have to analyze all the documents every time the program is run (a analysis on all 24,428 books takes about 8 hours).</p>
+<p>I calculated these features on each document then saved the results in a json file.  Using this method, we don't have to analyze all the documents every time the program is run (an analysis on all 24,428 books takes about 8 hours).</p>
 
 <h3>
 <a id="creating-the-decision-tree" class="anchor" href="#creating-the-decision-tree" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating the decision tree</h3>
 
-<p>To analyze the data I used a decision tree using python library sklearn's implementation.  The decision tree works to try and divide the data into sections or leafs where each leaf contains only (or a large majority) of one author.  The following is a simple example using 3 authors {star, circle, and triangle} and  2 parameters: {averageParagraphLength and WPT-and}.  In this example, after our analysis of all the documents We end up with the following graph.</p>
+<p>To analyze the data I used a decision tree using python library sklearn's implementation.  The decision tree starts with all the data and then begins to divide it into sections or leafs where each leaf contains only (or a large majority) of one author.  The following is a simple example using 3 authors {star, circle, and triangle} and  2 parameters: {averageParagraphLength and WPT-and}.  In this example, after our analysis of all the documents we end up with the following graph.</p>
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTreeBasicGraph.PNG" alt=""></p>
 
@@ -125,11 +125,11 @@
 <h2>
 <a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h2>
 
-<p>Using this method I was able to predict the correct author with a relatively high degree of accuracy.  This accuracy was correlated with two factors: the number of authors used and the minimum number of books each author must have written to be included in the dataset.  The following graphs show the results.</p>
+<p>Using this method I was able to predict the correct author with a relatively high degree of accuracy.  This accuracy was correlated with two factors: the number of authors used and the minimum number of books each author must have written to be included in the dataset.  Each analysis is the average of ten trials.  The following graphs show the results.</p>
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/authorsUsedOnAccuracy.PNG" alt=""></p>
 
-<p>We can see that as the number of authors increase, the accuracy decreases until it steadies at around 45% accuracy.  So given a high school classroom size of 30 students we would expect a 75% accuracy in the prediction of anonymous documents and given a large college course of 250 students we would expect 45% accuracy.  </p>
+<p>We can see that as the number of authors increase, the accuracy decreases until it steadies at around 45% accuracy.  So given a high school classroom size of 30 students we would expect a 75% accuracy in the prediction of anonymous documents and given a large college course of 250 students we would expect 45% accuracy.  From this we can conclude that given a small number of authors this tool can be used as evidence to support an author's claim on a document.  With larger author numbers, this tool could be used to point potential acts of plagiarism that could then be investigated.</p>
 
 <p>A second but less impactful variable was the number of books an author needed to write to be included in the dataset.  As we can see from the following graph, the more books we have to analyze from an author results in a small positive correlation to our accuracy.</p>
 
@@ -146,7 +146,7 @@
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/addingFeatures.PNG" alt=""></p>
 
-<p>As we can see, the first features are the most significant but after several features have been added each additional ones have a smaller impact.  We also see that certain features that did not do well on the single parameter test also added little or even hurt the accuracy when combined with other features.</p>
+<p>This is just one instance and different orderings produce slightly different results, however the shape of the graph holds pretty consistently.  As we can see, the first features are the most significant but after several features have been added each additional ones have a smaller impact.  We also see that certain features that did not do well on the single parameter test also added little or even hurt the accuracy when combined with other features.</p>
 
 <h2>
 <a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo</h2>
