@@ -1,59 +1,52 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Author Identifier by dandersen321</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-dark.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="Author Identifier : Apply Artificial Intelligence to Stylometry to identify authorship of documents.">
 
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Author Identifier</title>
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/dandersen321/AuthorIdentifier">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/dandersen321/AuthorIdentifier/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/dandersen321/AuthorIdentifier/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
 
-    <div class="wrapper">
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/dandersen321/AuthorIdentifier">View on GitHub</a>
 
-      <section>
-        <div id="title">
-          <h1>Author Identifier</h1>
-          <p>Apply Artificial Intelligence to Stylometry to determine authorship of documents whose author is unknown or in question.</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/dandersen321">dandersen321</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
+          <h1 id="project_title">Author Identifier</h1>
+          <h2 id="project_tagline">Apply Artificial Intelligence to Stylometry to identify authorship of documents.</h2>
 
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/dandersen321/AuthorIdentifier/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/dandersen321/AuthorIdentifier/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h2>
 <a id="executive-summary" class="anchor" href="#executive-summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Executive Summary</h2>
 
-<p>It can be hard to determine the author of a document it from the text alone.  This problem may arise when checking for plagiarism or old documents whose authorship is in question.  To solve such a problem, this tool uses a decision tree to learn the style of many authors.  Then using this information it can analyze a document and determine with relatively high accuracy the original author of the work in question.</p>
+<p>It can be hard to determine the author of a document from the text alone.  This problem may arise when checking for plagiarism or old documents whose authorship is in question.  To solve such a problem, this tool uses a decision tree to learn the style of many authors.  Then using this information it can analyze a document and determine with relatively high accuracy the original author of the work in question.</p>
 
 <h2>
 <a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
 
-<p>It is often difficult for a human to be able to analyze a document and determine the author.  This linguistic practice is known as Stylometry and has many useful applications.  There are many ways this problem has been approached, but each typically consists of looking for similar patterns between an author and the document being analyzed.  This tool attempts to improve the accuracy of such a method by using a decision tree that can find complex patterns that might be hard for a human to discover.</p>
+<p>For humans, it is difficult to analyze a document and recognize from the writing the author.  This linguistic practice is known as Stylometry and has many useful applications.  There are many ways this problem has been approached, but each typically consists of looking for similar patterns between an author's known works and the document being analyzed.  This tool attempts to improve the accuracy of such a method by using a decision tree that can find complex patterns that might be undetected by traditional methods.</p>
 
-<p>This implementation was used with a dataset of 24,428 books from the Gutenberg project (<a href="https://www.gutenberg.org/">https://www.gutenberg.org/</a>) but future releases may incorporate other media such as journals and emails.  The tool will analyze each book to try and discover an author's style.  If successful, it can then use this information to predict the author of future books it has not seen before.  This tool has been written in python using the NLTK and sklearn packages for language analysis and AI learning respectively.</p>
+<p>This implementation was used on a dataset of 24,428 books from the Gutenberg project (<a href="https://www.gutenberg.org/">https://www.gutenberg.org/</a>) but future releases may incorporate other media such as journals and emails.  The tool will analyze each book to discover an author's style.  If successful, it can then use this information to predict the author of future books it has not seen before.  This tool has been written in python using the NLTK and sklearn packages for language analysis and AI learning respectively.</p>
 
 <h2>
 <a id="why" class="anchor" href="#why" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why</h2>
 
-<p>There are several uses that one can find for the author identifier: </p>
+<p>There are several uses for the author identifier: </p>
 
 <ol>
 <li>Plagiarism: the tool could determine the probability that a paper under one author is actually written from another source</li>
@@ -114,20 +107,20 @@
 </li>
 </ul>
 
-<p>I calculated these features on each document then saved the results in a json file.  In this way we don't have to analyze each document every time the program is run (a full analysis on all 24,428 books takes about 8 hours).</p>
+<p>I calculated these features on each document then saved the results in a json file.  Using this method, we don't have to analyze all the documents every time the program is run (a analysis on all 24,428 books takes about 8 hours).</p>
 
 <h3>
 <a id="creating-the-decision-tree" class="anchor" href="#creating-the-decision-tree" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating the decision tree</h3>
 
-<p>To analyze the data I used a decision tree using python library sklearn's implementation.  The decision tree works to try and compartmentalize the data into leaf nodes where each leaf contains only (or a large majority) of one author.  A simple example would be given we had 3 authors: star, circle, and triangle and we were using 2 parameters: averageParagraphLength and WPT-and.  We might end up with the following graph:</p>
+<p>To analyze the data I used a decision tree using python library sklearn's implementation.  The decision tree works to try and divide the data into sections or leafs where each leaf contains only (or a large majority) of one author.  The following is a simple example using 3 authors {star, circle, and triangle} and  2 parameters: {averageParagraphLength and WPT-and}.  In this example, after our analysis of all the documents We end up with the following graph.</p>
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTreeBasicGraph.PNG" alt=""></p>
 
-<p>where each shape represents one book by that author.  We would then create the following decision tree:</p>
+<p>In this graph, each shape represents one book by that author.  Using this data we would then create the following decision tree:</p>
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTreeBasicTree.PNG" alt=""></p>
 
-<p>In this way, if were given the features of any random book we would be able to identify the author.  The decision tree used for this project is quite more complicated and the data not as perfectly categorized.  If you want to see the complexity of the tree you can get a look here: <a href="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTree.pdf">decision tree pdf</a>.</p>
+<p>Using this tree we can take the features of any random book and identify the author.  The decision tree used for this project is more complicated and not as perfectly categorized as the simple example.  If you want to see the complexity of the tree you can get a look here: <a href="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTree.pdf">decision tree pdf</a>.</p>
 
 <h2>
 <a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h2>
@@ -136,7 +129,7 @@
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/authorsUsedOnAccuracy.PNG" alt=""></p>
 
-<p>We can see that as the number of authors increase, the accuracy decreases until it steadies at around 45% accuracy.  So given a high school classroom size of about 30 students we would expect a 75% accuracy in the prediction of anonymous documents and given a large college course of 250 students we would expect 45% accuracy.  </p>
+<p>We can see that as the number of authors increase, the accuracy decreases until it steadies at around 45% accuracy.  So given a high school classroom size of 30 students we would expect a 75% accuracy in the prediction of anonymous documents and given a large college course of 250 students we would expect 45% accuracy.  </p>
 
 <p>A second but less impactful variable was the number of books an author needed to write to be included in the dataset.  As we can see from the following graph, the more books we have to analyze from an author results in a small positive correlation to our accuracy.</p>
 
@@ -153,11 +146,25 @@
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/addingFeatures.PNG" alt=""></p>
 
-<p>As we can see, the first features are the most significant but after several features have been added each additional one has a smaller impact.  We also see that certain features that did not well on the single parameter test also added little or even hurt the accuracy.</p>
-      </section>
+<p>As we can see, the first features are the most significant but after several features have been added each additional ones have a smaller impact.  We also see that certain features that did not do well on the single parameter test also added little or even hurt the accuracy when combined with other features.</p>
 
+<h2>
+<a id="references" class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+<p><a href="http://www2.tcs.ifi.lmu.de/%7Eramyaa/publications/stylometry.pdf">http://www2.tcs.ifi.lmu.de/~ramyaa/publications/stylometry.pdf</a>
+<a href="http://cs229.stanford.edu/proj2012/BarryLuna-StylometryforOnlineForums.pdf">http://cs229.stanford.edu/proj2012/BarryLuna-StylometryforOnlineForums.pdf</a></p>
+      </section>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Author Identifier maintained by <a href="https://github.com/dandersen321">dandersen321</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
     
+
   </body>
 </html>
