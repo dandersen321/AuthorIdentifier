@@ -17,10 +17,6 @@ def analyzeBook(bookContent):
     
     wordCounts = nltk.FreqDist(wordContent)
     
-    
-    
-    #return
-    
     awl = averageWordLength(wordAndPuncContent)
     awps = averageWordsPerSentence(sentences, wordContent)
     #standardDeviationOfSentenceLength = standardDeviation()
@@ -33,15 +29,6 @@ def analyzeBook(bookContent):
     
     bigraphsToTest = ['lc', 'co', 'me', 'we']
     frequencyOfBigraphs = getFrequencyOfBigraphs(bigraphsToTest, wordContent)
-    #print("awl: " + str(awl))
-    #print("awps: " + str(awps))
-     
-     
-    #wordCounts.plot(20)
-     
-    #print(wordCounts)
-    
-    #x = input()
     
     wordPerThousand = {
         ",": 0,
@@ -82,31 +69,8 @@ def analyzeBook(bookContent):
     for param in dataParameters:
         dataParameters[param] = round(dataParameters[param], 5)
     
-    #print(dataParameters)
     
     return dataParameters
-    
-    #===========================================================================
-    # data = []
-    # 
-    # for key in sorted(dataParameters):
-    #     data.append(dataParameters[key])
-    #     
-    # return data
-    #===========================================================================
-    
-        
-    #===========================================================================
-    # commonNGrams = mostCommonNGrams(wordContent, 20)
-    # #print(commonNGrams)
-    # #print("most common")
-    # for freq, word in commonNGrams:
-    #     print(str(freq) + ": " + str(word))
-    #===========================================================================
-        
-    
-    #for k, v in freq.items():
-    #    print(k, v)
 
 def mostCommonNGrams(wordContent, numberOfTopNGrams):
     #split on spaces, don't allow empty string in tuples
@@ -221,9 +185,4 @@ def testLoadBook():
     testBookAnalysis = analyzeBook(testBookContent)
     
     print(testBookAnalysis)
-    
-#testLoadBook()
-    
-        
-        
     
