@@ -1,52 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Author Identifier : Apply Artificial Intelligence to Stylometry to determine authorship of documents whose author is unknown or in question.">
+    <title>Author Identifier by dandersen321</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Author Identifier</title>
   </head>
-
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/dandersen321/AuthorIdentifier">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/dandersen321/AuthorIdentifier/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/dandersen321/AuthorIdentifier/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/dandersen321/AuthorIdentifier">View on GitHub</a>
+    <div class="wrapper">
 
-          <h1 id="project_title">Author Identifier</h1>
-          <h2 id="project_tagline">Apply Artificial Intelligence to Stylometry to determine authorship of documents whose author is unknown or in question.</h2>
+      <section>
+        <div id="title">
+          <h1>Author Identifier</h1>
+          <p>Apply Artificial Intelligence to Stylometry to determine authorship of documents whose author is unknown or in question.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/dandersen321">dandersen321</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/dandersen321/AuthorIdentifier/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/dandersen321/AuthorIdentifier/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
         <h2>
 <a id="executive-summary" class="anchor" href="#executive-summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Executive Summary</h2>
 
-<p>It can be hard to tell who the true author of a document it.  This problem may arise when checking for plagiarism or old documents whose authorship is unknown.  To solve this, this tool uses a decision tree to learn the style of many authors.  Then using this information it can analyze a document and determine the original author of the work in question.</p>
+<p>It can be hard to determine the author of a document it from the text alone.  This problem may arise when checking for plagiarism or old documents whose authorship is in question.  To solve such a problem, this tool uses a decision tree to learn the style of many authors.  Then using this information it can analyze a document and determine with relatively high accuracy the original author of the work in question.</p>
 
 <h2>
 <a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
 
 <p>It is often difficult for a human to be able to analyze a document and determine the author.  This linguistic practice is known as Stylometry and has many useful applications.  There are many ways this problem has been approached, but each typically consists of looking for similar patterns between an author and the document being analyzed.  This tool attempts to improve the accuracy of such a method by using a decision tree that can find complex patterns that might be hard for a human to discover.</p>
 
-<p>This implementation was used with a dataset of 24,428 books from the Gutenberg project (<a href="https://www.gutenberg.org/">https://www.gutenberg.org/</a>) but future releases may incorporate other media such as journals and emails.  The tool will analysis each book to try and discover an author's style.  If successful, it can then use this information to predict the author of future books it has not seen before.  This tool has been written in python using nltk and sklearn packages for parsing and AI learning respectively.</p>
+<p>This implementation was used with a dataset of 24,428 books from the Gutenberg project (<a href="https://www.gutenberg.org/">https://www.gutenberg.org/</a>) but future releases may incorporate other media such as journals and emails.  The tool will analyze each book to try and discover an author's style.  If successful, it can then use this information to predict the author of future books it has not seen before.  This tool has been written in python using the NLTK and sklearn packages for language analysis and AI learning respectively.</p>
 
 <h2>
 <a id="why" class="anchor" href="#why" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why</h2>
 
-<p>There are several uses that one can find for the author identifier, but I will list the main ones I see: </p>
+<p>There are several uses that one can find for the author identifier: </p>
 
 <ol>
 <li>Plagiarism: the tool could determine the probability that a paper under one author is actually written from another source</li>
@@ -107,7 +114,7 @@
 </li>
 </ul>
 
-<p>I calculated these feature on each document then saved the results in a json file.  In this way we don't have to analyze each document every time the program is run (a full analysis on all 24,428 books takes about 8 hours).</p>
+<p>I calculated these features on each document then saved the results in a json file.  In this way we don't have to analyze each document every time the program is run (a full analysis on all 24,428 books takes about 8 hours).</p>
 
 <h3>
 <a id="creating-the-decision-tree" class="anchor" href="#creating-the-decision-tree" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating the decision tree</h3>
@@ -120,7 +127,7 @@
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTreeBasicTree.PNG" alt=""></p>
 
-<p>In this way, if were given any data point from a book we would be able to identify the author.  Now the decision tree used for this project is quite more complicated and the data not as perfectly categorized.  If you want to get a look at the complexity of the tree you can get a look here: <a href="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTree.pdf">decision tree pdf</a>.</p>
+<p>In this way, if were given the features of any random book we would be able to identify the author.  The decision tree used for this project is quite more complicated and the data not as perfectly categorized.  If you want to see the complexity of the tree you can get a look here: <a href="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/decisionTree.pdf">decision tree pdf</a>.</p>
 
 <h2>
 <a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h2>
@@ -129,36 +136,28 @@
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/authorsUsedOnAccuracy.PNG" alt=""></p>
 
-<p>We can see that as the number of authors increase, the accuracy decreases until it steadies at around 45% accuracy.  So given a high school classroom size of about 30 we would expect a 75% accuracy in the prediction of anonymous documents and given a large college course of 250 we would expect 45% accuracy.  </p>
+<p>We can see that as the number of authors increase, the accuracy decreases until it steadies at around 45% accuracy.  So given a high school classroom size of about 30 students we would expect a 75% accuracy in the prediction of anonymous documents and given a large college course of 250 students we would expect 45% accuracy.  </p>
 
-<p>A second but lesser impactful variable was the number of books an author needed to write to be included in the dataset.  As we can see from the following graph, the more books we have to analyze from an author results in a small positive correlation to our accuracy.</p>
+<p>A second but less impactful variable was the number of books an author needed to write to be included in the dataset.  As we can see from the following graph, the more books we have to analyze from an author results in a small positive correlation to our accuracy.</p>
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/minBooks.png" alt=""> </p>
 
 <h2>
 <a id="features-of-importance" class="anchor" href="#features-of-importance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features of Importance</h2>
 
-<p>After looking at the results, I also explored which features improved the accuracy the most.  The first way was to use only that feature and see how well I could predict the accuracy.  This resulted in expectedly low accuracy, but showing which features were strong on their own.</p>
+<p>After looking at the results, I also explored which features improved the accuracy the most.  The first way was to use only that feature and see how well I could predict the accuracy.  This resulted in expectedly low accuracy, but shows which features are strong on their own.</p>
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/SingleParam.png" alt=""></p>
 
-<p>I then looked at how the features combined to affect accuracy.  I did this by starting with zero features, and then added one random feature and computed it's accuracy in predicting authors.  This resulted in the following data.</p>
+<p>I then looked at how the features combined to affect accuracy.  I did this by starting with zero features, and then adding one random feature and computing it's accuracy in predicting authors.  This resulted in the following data.</p>
 
 <p><img src="https://raw.githubusercontent.com/dandersen321/AuthorIdentifier/master/addingFeatures.PNG" alt=""></p>
 
-<p>As we can see, the first features are the most signficant but after several features each additional one has a smaller impact.  We also see that certain features that did not well on the single param test also added little or even hurt the accuracy.</p>
+<p>As we can see, the first features are the most significant but after several features have been added each additional one has a smaller impact.  We also see that certain features that did not well on the single parameter test also added little or even hurt the accuracy.</p>
       </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Author Identifier maintained by <a href="https://github.com/dandersen321">dandersen321</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
-      </footer>
     </div>
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
-
   </body>
 </html>
